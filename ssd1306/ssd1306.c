@@ -261,6 +261,7 @@ int ssd1306_set_charge_pump_enabled(const ssd1306_t *dev, bool enabled)
             return -ENOTSUP;
     }
 }
+   
 
 int ssd1306_set_mem_addr_mode(const ssd1306_t *dev, ssd1306_mem_addr_mode_t mode)
 {
@@ -844,6 +845,13 @@ int ssd1306_fill_triangle(const ssd1306_t *dev, uint8_t *fb, int16_t x0, int16_t
     return 0;
 }
 
+font_char_desc_t *fontget_char_desc(const font_info_t *fnt, char c)
+{
+    return c < fnt->char_start || c > fnt->char_end
+        ? NULL
+        : fnt->char_descriptors + c - fnt->char_start;
+}
+
 int ssd1306_draw_char(const ssd1306_t *dev, uint8_t *fb, const font_info_t *font, uint8_t x, uint8_t y, char c, ssd1306_color_t foreground,
         ssd1306_color_t background)
 {
@@ -855,7 +863,7 @@ int ssd1306_draw_char(const ssd1306_t *dev, uint8_t *fb, const font_info_t *font
     if (font == NULL)
         return 0;
 
-    const font_char_desc_t *d = font_get_char_desc(font, c);
+    font_char_desc_t *d = fontget_char_desc(font, c);
     if (d == NULL)
         return 0;
 
