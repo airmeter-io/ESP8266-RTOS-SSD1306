@@ -1,0 +1,12 @@
+set(COMPONENT_SRCDIRS
+  "ssd1306"
+)
+
+set(COMPONENT_ADD_INCLUDEDIRS
+  "."
+)
+
+idf_component_register(
+  SRCS "ssd1306/ssd1306.c"
+  INCLUDE_DIRS "."
+  REQUIRES "ESP8266-RTOS-FONTS")
